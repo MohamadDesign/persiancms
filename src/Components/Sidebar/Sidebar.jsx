@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import "./Sidebar.css";
 import { AiOutlineHome, AiOutlineShoppingCart } from "react-icons/ai";
 import { BiCommentDetail } from "react-icons/bi";
@@ -14,40 +15,40 @@ export default function Sidebar() {
 
         <ul className="sidebar-links">
           <li>
-            <a href="#">
+            <Link to="/">
               <AiOutlineHome className="icon" />
               صفحه اصلی
-            </a>
+            </Link>
           </li>
           <li className="active">
-            <a href="#">
+            <Link to="/products">
               <AiOutlineShoppingCart className="icon" />
               محصولات
-            </a>
+            </Link>
           </li>
           <li>
-            <a href="#">
+            <Link to="/comments">
               <BiCommentDetail className="icon" />
               نظرات
-            </a>
+            </Link>
           </li>
           <li>
-            <a href="#">
+            <Link to="/users">
               <FiUsers className="icon" />
               کاربران
-            </a>
+            </Link>
           </li>
           <li>
-            <a href="#">
+            <Link to="/orders">
               <BsBagPlus className="icon" />
               سفارشات
-            </a>
+            </Link>
           </li>
           <li>
-            <a href="#">
+            <Link to="/discount">
               <TbDiscount2 className="icon" />
               تخفیفات
-            </a>
+            </Link>
           </li>
         </ul>
       </div>
