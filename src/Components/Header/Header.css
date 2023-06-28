@@ -1,8 +1,7 @@
 .header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  width: 225%;
+  justify-content: space-between; 
 }
 
 .admin-profile {
@@ -61,7 +60,7 @@
   align-items: center;
   font-size: 1.1rem;
   width: 135px;
-  height: 40px  ;
+  height: 40px;
   border-radius: 10px;
   background-color: var(--blue);
   color: var(--white);

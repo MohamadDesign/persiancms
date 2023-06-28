@@ -1,6 +1,11 @@
 import React from "react";
 import "./Users.css";
+import ErrorBox from "../ErrorBox/ErrorBox";
 
 export default function Users() {
-  return <div>Users</div>;
+  return (
+    <>
+      <ErrorBox msg="هیچ کاربری یافت نشد" />
+    </>
+  );
 }
