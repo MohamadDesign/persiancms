@@ -14,13 +14,13 @@ export default function Sidebar() {
         <h1 className="sidebar-title">به داشبورد خود خوش آمدید</h1>
 
         <ul className="sidebar-links">
-          <li>
+          <li className="active">
             <Link to="/">
               <AiOutlineHome className="icon" />
               صفحه اصلی
             </Link>
           </li>
-          <li className="active">
+          <li>
             <Link to="/products">
               <AiOutlineShoppingCart className="icon" />
               محصولات
