@@ -2,7 +2,7 @@ import React from "react";
 import "./DeleteModal.css";
 import ReactDOM from "react-dom";
 
-export default function DeleteModal({ acceptAction, cancelAction }) {
+export default function   DeleteModal({ acceptAction, cancelAction }) {
   return ReactDOM.createPortal(
     <>
       <div className="modal-parent active">

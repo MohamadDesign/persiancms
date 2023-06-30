@@ -1,22 +1,32 @@
 import React, { useState } from "react";
 import "./ProductsTable.css";
 import DeleteModal from "../DeleteModal/DeleteModal";
+import DetailsModal from "../DetailsModal/DetailsModal";
 
 export default function ProductsTable() {
-  const [isShowModal, setIsShowModal] = useState(false);
+  const [isDeleteShowModal, setIsDeleteShowModal] = useState(false);
+  const [isDetailsShowModal, setIsDetailsShowModal] = useState(false);
 
   const deleteModalCancelAction = () => {
     console.log("مدال کنسل شد");
-    setIsShowModal(false);
+    setIsDeleteShowModal(false);
   };
 
   const deleteModalAcceptAction = () => {
     console.log("مدال تایید شد");
-    setIsShowModal(false);
+    setIsDeleteShowModal(false);
+  };
+
+  const closeDetailsModal = () => {
+    console.log("مدال جزییات بسته شد");
+    setIsDetailsShowModal(false);
   };
 
   return (
     <>
+      {isDetailsShowModal && (
+        <DetailsModal closeDetailsAction={closeDetailsModal} />
+      )}
       <table className="products-table">
         <thead>
           <tr className="products-table-heading-tr">
@@ -40,10 +50,15 @@ export default function ProductsTable() {
             <td>250000 تومان </td>
             <td>20 </td>
             <td>
-              <button className="products-table-btn">جزییات </button>
               <button
                 className="products-table-btn"
-                onClick={() => setIsShowModal(true)}
+                onClick={() => setIsDetailsShowModal(true)}
+              >
+                جزییات{" "}
+              </button>
+              <button
+                className="products-table-btn"
+                onClick={() => setIsDeleteShowModal(true)}
               >
                 حذف{" "}
               </button>
@@ -52,7 +67,7 @@ export default function ProductsTable() {
           </tr>
         </tbody>
       </table>
-      {isShowModal && (
+      {isDeleteShowModal && (
         <DeleteModal
           acceptAction={deleteModalAcceptAction}
           cancelAction={deleteModalCancelAction}
