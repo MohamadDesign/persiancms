@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./ProductsTable.css";
 import DeleteModal from "../DeleteModal/DeleteModal";
 import DetailsModal from "../DetailsModal/DetailsModal";
@@ -7,11 +7,10 @@ import ErrorBox from "../ErrorBox/ErrorBox";
 import { MdDriveFileRenameOutline } from "react-icons/md";
 import { BiDollar, BiShoppingBag } from "react-icons/bi";
 
-export default function ProductsTable() {
+export default function ProductsTable({ allProducts, getAllProducts }) {
   const [isDeleteShowModal, setIsDeleteShowModal] = useState(false);
   const [isDetailsShowModal, setIsDetailsShowModal] = useState(false);
   const [isEditShowModal, setIsEditShowModal] = useState(false);
-  const [allProducts, setAllProducts] = useState([]);
   const [productId, setProductId] = useState(null);
   const [mainProductInfo, setMainProductInfo] = useState({});
   const [productNewTitle, setProductNewTitle] = useState("");
@@ -55,7 +54,7 @@ export default function ProductsTable() {
       .then((res) => {
         console.log(res);
         setIsEditShowModal(false);
-        getProduct();
+        getAllProducts();
       });
   };
 
@@ -68,19 +67,9 @@ export default function ProductsTable() {
       .then((res) => res.json())
       .then((data) => {
         setIsDeleteShowModal(false);
-        getProduct();
+        getAllProducts();
       });
   };
-
-  const getProduct = () => {
-    fetch("http://localhost:8000/api/products/")
-      .then((res) => res.json())
-      .then((res) => setAllProducts(res));
-  };
-
-  useEffect(() => {
-    getProduct();
-  }, []);
 
   return (
     <>

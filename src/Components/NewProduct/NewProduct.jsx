@@ -12,7 +12,7 @@ import {
 } from "react-icons/bi";
 import { IoIosColorPalette } from "react-icons/io";
 
-export default function NewProduct() {
+export default function NewProduct({ getAllProducts }) {
   const [newProductTitle, setNewProductTitle] = useState("");
   const [newProductPrice, setNewProductPrice] = useState("");
   const [newProductCount, setNewProductCount] = useState("");
@@ -42,7 +42,21 @@ export default function NewProduct() {
       body: JSON.stringify(newProduct),
     })
       .then((response) => response.json())
-      .then((data) => console.log(data));
+      .then((data) => {
+        getAllProducts();
+        console.log(data);
+        emptyArguments();
+      });
+  };
+
+  const emptyArguments = () => {
+    setNewProductTitle("");
+    setNewProductPrice("");
+    setNewProductCount("");
+    setNewProductImg("");
+    setNewProductPopularity("");
+    setNewProductSale("");
+    setNewProductColor("");
   };
 
   return (
