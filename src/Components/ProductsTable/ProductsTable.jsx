@@ -14,6 +14,13 @@ export default function ProductsTable() {
   const [allProducts, setAllProducts] = useState([]);
   const [productId, setProductId] = useState(null);
   const [mainProductInfo, setMainProductInfo] = useState({});
+  const [productNewTitle, setProductNewTitle] = useState("");
+  const [productNewPrice, setProductNewPrice] = useState("");
+  const [productNewCount, setProductNewCount] = useState("");
+  const [productNewImg, setProductNewImg] = useState("");
+  const [productNewPopularity, setProductNewPopularity] = useState("");
+  const [productNewSale, setProductNewSale] = useState("");
+  const [productNewColor, setProductNewColor] = useState("");
 
   const deleteModalCancelAction = () => {
     console.log("مدال کنسل شد");
@@ -28,7 +35,28 @@ export default function ProductsTable() {
   const editProducts = (event) => {
     event.preventDefault();
     console.log("محصولات به روز رسانی شد");
-    setIsEditShowModal(false);
+    const productsNewInfo = {
+      title: productNewTitle,
+      price: productNewPrice,
+      count: productNewCount,
+      img: productNewImg,
+      popularity: productNewPopularity,
+      sale: productNewSale,
+      colors: productNewColor,
+    };
+    fetch(`http://localhost:8000/api/products/${productId}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(productsNewInfo),
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        console.log(res);
+        setIsEditShowModal(false);
+        getProduct();
+      });
   };
 
   const deleteModalAcceptAction = () => {
@@ -102,7 +130,18 @@ export default function ProductsTable() {
                   </button>
                   <button
                     className="products-table-btn"
-                    onClick={() => setIsEditShowModal(true)}
+                    onClick={() => {
+                      setIsEditShowModal(true);
+                      setProductId(product.id);
+                      setMainProductInfo(product);
+                      setProductNewTitle(product.title);
+                      setProductNewPrice(product.price);
+                      setProductNewCount(product.count);
+                      setProductNewImg(product.img);
+                      setProductNewPopularity(product.popularity);
+                      setProductNewSale(product.sale);
+                      setProductNewColor(product.colors);
+                    }}
                   >
                     ویرایش{" "}
                   </button>
@@ -154,6 +193,8 @@ export default function ProductsTable() {
               type="text"
               placeholder="نام جدید محصول را وارد کنید"
               className="edit-product-input"
+              value={productNewTitle}
+              onChange={(event) => setProductNewTitle(event.target.value)}
             />
           </div>
           <div className="edit-products-form-group">
@@ -164,6 +205,8 @@ export default function ProductsTable() {
               type="text"
               placeholder="قیمت جدید محصول را وارد کنید"
               className="edit-product-input"
+              value={productNewPrice}
+              onChange={(event) => setProductNewPrice(event.target.value)}
             />
           </div>
           <div className="edit-products-form-group">
@@ -174,6 +217,56 @@ export default function ProductsTable() {
               type="text"
               placeholder="موجودی جدید محصول را وارد کنید"
               className="edit-product-input"
+              value={productNewCount}
+              onChange={(event) => setProductNewCount(event.target.value)}
+            />
+          </div>
+          <div className="edit-products-form-group">
+            <span>
+              <BiShoppingBag />
+            </span>
+            <input
+              type="text"
+              placeholder="آدرس کاور جدید محصول را وارد کنید"
+              className="edit-product-input"
+              value={productNewImg}
+              onChange={(event) => setProductNewImg(event.target.value)}
+            />
+          </div>
+          <div className="edit-products-form-group">
+            <span>
+              <BiShoppingBag />
+            </span>
+            <input
+              type="text"
+              placeholder="میزان محبوبیت جدید محصول را وارد کنید"
+              className="edit-product-input"
+              value={productNewPopularity}
+              onChange={(event) => setProductNewPopularity(event.target.value)}
+            />
+          </div>
+          <div className="edit-products-form-group">
+            <span>
+              <BiShoppingBag />
+            </span>
+            <input
+              type="text"
+              placeholder="میزان فروش جدید محصول را وارد کنید"
+              className="edit-product-input"
+              value={productNewSale}
+              onChange={(event) => setProductNewSale(event.target.value)}
+            />
+          </div>
+          <div className="edit-products-form-group">
+            <span>
+              <BiShoppingBag />
+            </span>
+            <input
+              type="text"
+              placeholder="تعداد رنگ بندی جدید محصول را وارد کنید"
+              className="edit-product-input"
+              value={productNewColor}
+              onChange={(event) => setProductNewColor(event.target.value)}
             />
           </div>
         </EditModal>
