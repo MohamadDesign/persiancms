@@ -12,20 +12,11 @@ export default function ProductsTable() {
   const [isDetailsShowModal, setIsDetailsShowModal] = useState(false);
   const [isEditShowModal, setIsEditShowModal] = useState(false);
   const [allProducts, setAllProducts] = useState([]);
-
-  useEffect(() => {
-    fetch("http://localhost:8000/api/products/")
-      .then((res) => res.json())
-      .then((products) => setAllProducts(products));
-  }, []);
+  const [productId, setProductId] = useState(null);
+  const [mainProductInfo, setMainProductInfo] = useState({});
 
   const deleteModalCancelAction = () => {
     console.log("مدال کنسل شد");
-    setIsDeleteShowModal(false);
-  };
-
-  const deleteModalAcceptAction = () => {
-    console.log("مدال تایید شد");
     setIsDeleteShowModal(false);
   };
 
@@ -39,6 +30,29 @@ export default function ProductsTable() {
     console.log("محصولات به روز رسانی شد");
     setIsEditShowModal(false);
   };
+
+  const deleteModalAcceptAction = () => {
+    console.log("مدال تایید شد");
+    console.log(productId);
+    fetch(`http://localhost:8000/api/products/${productId}`, {
+      method: "DELETE",
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setIsDeleteShowModal(false);
+        getProduct();
+      });
+  };
+
+  const getProduct = () => {
+    fetch("http://localhost:8000/api/products/")
+      .then((res) => res.json())
+      .then((res) => setAllProducts(res));
+  };
+
+  useEffect(() => {
+    getProduct();
+  }, []);
 
   return (
     <>
@@ -70,13 +84,19 @@ export default function ProductsTable() {
                 <td>
                   <button
                     className="products-table-btn"
-                    onClick={() => setIsDetailsShowModal(true)}
+                    onClick={() => {
+                      setIsDetailsShowModal(true);
+                      setMainProductInfo(product);
+                    }}
                   >
                     جزییات{" "}
                   </button>
                   <button
                     className="products-table-btn"
-                    onClick={() => setIsDeleteShowModal(true)}
+                    onClick={() => {
+                      setIsDeleteShowModal(true);
+                      setProductId(product.id);
+                    }}
                   >
                     حذف{" "}
                   </button>
@@ -96,7 +116,24 @@ export default function ProductsTable() {
       )}
 
       {isDetailsShowModal && (
-        <DetailsModal closeDetailsAction={closeDetailsModal} />
+        <DetailsModal closeDetailsAction={closeDetailsModal}>
+          <table className="cms-table">
+            <thead>
+              <tr>
+                <th>محبوبیت</th>
+                <th>فروش</th>
+                <th>رنگ بندی</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>{mainProductInfo.popularity}</td>
+                <td>{mainProductInfo.sale}</td>
+                <td>{mainProductInfo.colors}</td>
+              </tr>
+            </tbody>
+          </table>
+        </DetailsModal>
       )}
       {isDeleteShowModal && (
         <DeleteModal
