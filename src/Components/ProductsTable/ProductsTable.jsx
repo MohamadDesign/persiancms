@@ -63,6 +63,10 @@ export default function ProductsTable({ allProducts, getAllProducts }) {
       .then((data) => {
         setIsDeleteShowModal(false);
         getAllProducts();
+      })
+      .catch((error) => {
+        alert("برای این محصول کامنت ثبت شده لطفا کامنت آنرا حذف کنید");
+        setIsDeleteShowModal(false);
       });
   };
 
