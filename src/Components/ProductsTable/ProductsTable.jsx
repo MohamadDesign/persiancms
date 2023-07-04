@@ -22,18 +22,15 @@ export default function ProductsTable({ allProducts, getAllProducts }) {
   const [productNewColor, setProductNewColor] = useState("");
 
   const deleteModalCancelAction = () => {
-    console.log("مدال کنسل شد");
     setIsDeleteShowModal(false);
   };
 
   const closeDetailsModal = () => {
-    console.log("مدال جزییات بسته شد");
     setIsDetailsShowModal(false);
   };
 
   const editProducts = (event) => {
     event.preventDefault();
-    console.log("محصولات به روز رسانی شد");
     const productsNewInfo = {
       title: productNewTitle,
       price: productNewPrice,
@@ -59,8 +56,6 @@ export default function ProductsTable({ allProducts, getAllProducts }) {
   };
 
   const deleteModalAcceptAction = () => {
-    console.log("مدال تایید شد");
-    console.log(productId);
     fetch(`http://localhost:8000/api/products/${productId}`, {
       method: "DELETE",
     })
