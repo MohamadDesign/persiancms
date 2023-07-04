@@ -4,6 +4,7 @@ import ErrorBox from "../ErrorBox/ErrorBox";
 import DeleteModal from "../DeleteModal/DeleteModal";
 import DetailsModal from "../DetailsModal/DetailsModal";
 import EditModal from "../EditModal/EditModal";
+import { json } from "react-router-dom";
 
 export default function Comments() {
   const [allComments, setAllComments] = useState([]);
@@ -13,6 +14,7 @@ export default function Comments() {
   const [commentId, setCommentId] = useState("");
   const [isShowEditModal, setIsShowEditModal] = useState(false);
   const [isShowAcceptModal, setIsShowAcceptModal] = useState(false);
+  const [isShowRejectModal, setIsShowRejectModal] = useState(false);
 
   const closeDetailModal = () => {
     setIsShowDetailModal(false);
@@ -64,7 +66,17 @@ export default function Comments() {
       .then((res) => {
         setIsShowAcceptModal(false);
         getComments();
-        console.log(" شد تایید", res);
+      });
+  };
+
+  const RejectComment = () => {
+    fetch(`http://localhost:8000/api/comments/reject/${commentId}`, {
+      method: "POST",
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        setIsShowRejectModal(false);
+        getComments();
       });
   };
 
@@ -122,7 +134,6 @@ export default function Comments() {
                     >
                       ویرایش
                     </button>
-                    <button>پاسخ</button>
                     {comments.isAccept === 0 && (
                       <button
                         onClick={() => {
@@ -131,6 +142,16 @@ export default function Comments() {
                         }}
                       >
                         تایید
+                      </button>
+                    )}
+                    {comments.isAccept === 1 && (
+                      <button
+                        onClick={() => {
+                          setCommentId(comments.id);
+                          setIsShowRejectModal(true);
+                        }}
+                      >
+                        رد کامنت
                       </button>
                     )}
                   </td>
@@ -191,6 +212,14 @@ export default function Comments() {
             acceptAction={AcceptComment}
             cancelAction={() => setIsShowAcceptModal(false)}
             title="آیا از تایید این نظر مطمئن هستید؟"
+          ></DeleteModal>
+        )}
+
+        {isShowRejectModal && (
+          <DeleteModal
+            title="از رد کردن کامنت اطمینان دارید ؟"
+            acceptAction={RejectComment}
+            cancelAction={() => setIsShowRejectModal(false)}
           ></DeleteModal>
         )}
       </div>
