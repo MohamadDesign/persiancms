@@ -5,6 +5,7 @@ import DeleteModal from "../DeleteModal/DeleteModal";
 import DetailsModal from "../DetailsModal/DetailsModal";
 import EditModal from "../EditModal/EditModal";
 import { json } from "react-router-dom";
+import { h1 } from "fontawesome";
 
 export default function Comments() {
   const [allComments, setAllComments] = useState([]);
@@ -88,77 +89,80 @@ export default function Comments() {
     <>
       <div className="cms-main">
         {allComments.length ? (
-          <table className="cms-table">
-            <thead>
-              <tr>
-                <th>اسم کاربر</th>
-                <th>محصول</th>
-                <th>نظر کاربر</th>
-                <th>تاریخ</th>
-                <th>ساعت</th>
-                <th>عملیات</th>
-              </tr>
-            </thead>
-            <tbody>
-              {allComments.map((comments) => (
-                <tr key={comments.id}>
-                  <td>{comments.userID}</td>
-                  <td>{comments.productID}</td>
-                  <td>
-                    <button
-                      onClick={() => {
-                        setIsShowDetailModal(true);
-                        setCommentBody(comments.body);
-                      }}
-                    >
-                      مشاهده کامل نظر
-                    </button>
-                  </td>
-                  <td>{comments.date}</td>
-                  <td>{comments.hour}</td>
-                  <td>
-                    <button
-                      onClick={() => {
-                        setIsShowDeleteModal(true);
-                        setCommentId(comments.id);
-                      }}
-                    >
-                      حذف
-                    </button>
-                    <button
-                      onClick={() => {
-                        setIsShowEditModal(true);
-                        setCommentId(comments.id);
-                        setCommentBody(comments.body);
-                      }}
-                    >
-                      ویرایش
-                    </button>
-                    {comments.isAccept === 0 && (
-                      <button
-                        onClick={() => {
-                          setIsShowAcceptModal(true);
-                          setCommentId(comments.id);
-                        }}
-                      >
-                        تایید
-                      </button>
-                    )}
-                    {comments.isAccept === 1 && (
-                      <button
-                        onClick={() => {
-                          setCommentId(comments.id);
-                          setIsShowRejectModal(true);
-                        }}
-                      >
-                        رد کامنت
-                      </button>
-                    )}
-                  </td>
+          <>
+            <h1 className="cms-title">لیست نظرات</h1>
+            <table className="cms-table">
+              <thead>
+                <tr>
+                  <th>اسم کاربر</th>
+                  <th>محصول</th>
+                  <th>نظر کاربر</th>
+                  <th>تاریخ</th>
+                  <th>ساعت</th>
+                  <th>عملیات</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {allComments.map((comments) => (
+                  <tr key={comments.id}>
+                    <td>{comments.userID}</td>
+                    <td>{comments.productID}</td>
+                    <td>
+                      <button
+                        onClick={() => {
+                          setIsShowDetailModal(true);
+                          setCommentBody(comments.body);
+                        }}
+                      >
+                        مشاهده کامل نظر
+                      </button>
+                    </td>
+                    <td>{comments.date}</td>
+                    <td>{comments.hour}</td>
+                    <td>
+                      <button
+                        onClick={() => {
+                          setIsShowDeleteModal(true);
+                          setCommentId(comments.id);
+                        }}
+                      >
+                        حذف
+                      </button>
+                      <button
+                        onClick={() => {
+                          setIsShowEditModal(true);
+                          setCommentId(comments.id);
+                          setCommentBody(comments.body);
+                        }}
+                      >
+                        ویرایش
+                      </button>
+                      {comments.isAccept === 0 && (
+                        <button
+                          onClick={() => {
+                            setIsShowAcceptModal(true);
+                            setCommentId(comments.id);
+                          }}
+                        >
+                          تایید
+                        </button>
+                      )}
+                      {comments.isAccept === 1 && (
+                        <button
+                          onClick={() => {
+                            setCommentId(comments.id);
+                            setIsShowRejectModal(true);
+                          }}
+                        >
+                          رد کامنت
+                        </button>
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </>
         ) : (
           <ErrorBox msg="هیچ نظری یافت نشد" />
         )}
