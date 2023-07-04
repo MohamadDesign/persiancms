@@ -12,12 +12,12 @@ export default function Comments() {
   const [isShowDeleteModal, setIsShowDeleteModal] = useState(false);
   const [commentId, setCommentId] = useState("");
   const [isShowEditModal, setIsShowEditModal] = useState(false);
+  const [isShowAcceptModal, setIsShowAcceptModal] = useState(false);
 
   const closeDetailModal = () => {
     setIsShowDetailModal(false);
   };
   const DeleteModalAcceptAction = () => {
-    console.log("نظر حذف شد");
     setIsShowDeleteModal(false);
     fetch(`http://localhost:8000/api/comments/${commentId}`, {
       method: "DELETE",
@@ -29,7 +29,6 @@ export default function Comments() {
       });
   };
   const DeleteModalCancelAction = () => {
-    console.log("از حذف نظر منصرف شدید");
     setIsShowDeleteModal(false);
   };
 
@@ -54,6 +53,18 @@ export default function Comments() {
       .then((res) => {
         setIsShowEditModal(false);
         getComments();
+      });
+  };
+
+  const AcceptComment = () => {
+    fetch(`http://localhost:8000/api/comments/accept/${commentId}`, {
+      method: "POST",
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        setIsShowAcceptModal(false);
+        getComments();
+        console.log(" شد تایید", res);
       });
   };
 
@@ -112,7 +123,16 @@ export default function Comments() {
                       ویرایش
                     </button>
                     <button>پاسخ</button>
-                    <button>تایید</button>
+                    {comments.isAccept === 0 && (
+                      <button
+                        onClick={() => {
+                          setIsShowAcceptModal(true);
+                          setCommentId(comments.id);
+                        }}
+                      >
+                        تایید
+                      </button>
+                    )}
                   </td>
                 </tr>
               ))}
@@ -143,6 +163,7 @@ export default function Comments() {
           <DeleteModal
             acceptAction={DeleteModalAcceptAction}
             cancelAction={DeleteModalCancelAction}
+            title="آیا از حذف نظر اطمینان دارید ؟"
           >
             <p className="text-modal">از حذف نظر مطمئن هستید ؟ </p>
           </DeleteModal>
@@ -163,6 +184,14 @@ export default function Comments() {
               />
             </div>
           </EditModal>
+        )}
+
+        {isShowAcceptModal && (
+          <DeleteModal
+            acceptAction={AcceptComment}
+            cancelAction={() => setIsShowAcceptModal(false)}
+            title="آیا از تایید این نظر مطمئن هستید؟"
+          ></DeleteModal>
         )}
       </div>
     </>
